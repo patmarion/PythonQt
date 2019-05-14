@@ -58,11 +58,13 @@ int main( int argc, char **argv )
   PythonQt::self()->registerClass(&QPushButton::staticMetaObject, "QtGui");
   PythonQt::self()->registerCPPClass("YourCPPObject","", "example");
 
-  mainContext.evalFile(":example.py");
+  mainContext.evalFile(argv[1]);
 
-  console.appendCommandPrompt();
-  console.show();
+  return 0;
+  //mainContext.evalFile(":example.py");
+  //console.appendCommandPrompt();
+  //console.show();
 
-  return qapp.exec();
+  //return qapp.exec();
 }
 

@@ -89,6 +89,8 @@ public Q_SLOTS:
 
   // add a method to your own CPP object
   int doSomething(YourCPPObject* obj, int arg1) { return obj->doSomething(arg1); }
+
+  QVariant static_QWidget_myTest(QVariant arg);
 };
 
 

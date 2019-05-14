@@ -1,0 +1,2 @@
+add_executable(PyScriptingConsole main.cpp PyExampleObject.cpp)
+target_link_libraries(PyScriptingConsole PythonQt)

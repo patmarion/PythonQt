@@ -1,28 +1,26 @@
 from PythonQt import QtCore, QtGui, example
 
-# call our new constructor of QSize
-size = QtCore.QSize(QtCore.QPoint(1,2))
+import pybind_example
 
-# call our new QPushButton constructor
-button = QtGui.QPushButton("sometext")
+import gc
 
-# call the move slot (overload1)
-button.move(QtCore.QPoint(0,0))
 
-# call the move slot (overload2)
-button.move(0,0)
+import sys
 
-# call the static method
-print (QtGui.QWidget.mouseGrabber())
+p = pybind_example.Pet('sonja')
+print('ref count:', sys.getrefcount(p))
 
-# create a CPP object via constructor
-yourCpp = example.YourCPPObject(2,11.5)
 
-# call the wrapped method on CPP object
-print (yourCpp.doSomething(3))
+#p = pybind_example.new_pet()
+#print(p.getName())
+#p = None
+ 
 
-# show slots available on yourCpp 
-print (dir(yourCpp))
+res = QtGui.QWidget.myTest(p)
+print('ref count:', sys.getrefcount(res))
+print(res.getName())
+res = None
 
-# destructor will be called:
-yourCpp = None
+p = None
+
+print('DONE')

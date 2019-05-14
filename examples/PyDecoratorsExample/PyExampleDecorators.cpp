@@ -40,4 +40,29 @@
 //----------------------------------------------------------------------------------
 
 #include "PyExampleDecorators.h"
+#include "pybind_example.h"
+#include <iostream>
+#include <QVariant>
 
+QVariant PyExampleDecorators::static_QWidget_myTest(QVariant arg)
+{
+  /*
+  Pet* pet = new_pet();
+  std::cout << "myTest: " << pet->getName() << std::endl;
+  delete pet;
+  */
+
+  PythonQtObjectPtr argp;
+  bool result = argp.fromVariant(arg);
+  if (result) std::cout << "converted!" << std::endl;
+
+  Pet* argpet = convert_py_pet(argp.object());
+  std::cout << "arg pet: " << argpet->getName() << std::endl;
+
+  PyObject* pypet = new_py_pet();
+  //PythonQtObjectPtr ptr(pypet);
+  PythonQtObjectPtr ptr;
+  ptr.setNewRef(pypet);
+
+  return QVariant::fromValue(ptr);
+}
