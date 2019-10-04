@@ -62,6 +62,8 @@ PyObject* PythonQtSignalTarget::call(PyObject* callable, const PythonQtMethodInf
 {
   Q_UNUSED(skipFirstArgumentOfMethodInfo)
 
+  PyGILState_STATE state = PyGILState_Ensure();
+
   // Note: we check if the callable is a PyFunctionObject and has a fixed number of arguments
   // if that is the case, we only pass these arguments to python and skip the additional arguments from the signal
 
@@ -138,6 +140,7 @@ PyObject* PythonQtSignalTarget::call(PyObject* callable, const PythonQtMethodInf
     Py_DECREF(pargs);
   }
 
+  PyGILState_Release(state);
   return result;
 }
 
@@ -263,6 +266,8 @@ int PythonQtSignalReceiver::qt_metacall(QMetaObject::Call c, int id, void **argu
     QObject::qt_metacall(c, id, arguments);
   }
 
+  PyGILState_STATE state = PyGILState_Ensure();
+
   Q_FOREACH(const PythonQtSignalTarget& t, _targets) {
     if (t.slotId() == id) {
       t.call(arguments);
@@ -277,6 +282,7 @@ int PythonQtSignalReceiver::qt_metacall(QMetaObject::Call c, int id, void **argu
       break;
     }
   }
+  PyGILState_Release(state);
   return 0;
 }
 
