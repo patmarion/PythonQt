@@ -173,7 +173,11 @@ public:
   QObject* decorator();
   
   //! add the parent class info of a CPP object
-  void addParentClass(const ParentClassInfo& info) { _parentClasses.append(info); }
+  void addParentClass(const ParentClassInfo& info) {
+    if (info._parent != this) {
+        _parentClasses.append(info);
+    }
+  }
 
   //! set the associated PythonQtClassWrapper (which handles instance creation of this type)
   void setPythonQtClassWrapper(PyObject* obj) { _pythonQtClassWrapper = obj; }
